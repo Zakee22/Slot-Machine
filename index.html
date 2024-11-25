@@ -1,37 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abans Showroom List</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <!-- 11.11 Sale Banner -->
-    <!-- <div id="saleBanner">
-        <h2>🎉 11.11 SALE IS HERE! 🎉</h2>
-        <p>Massive Discounts across all showrooms. Hurry up!</p>
-    </div> -->
-
-    <!-- Page Content -->
-    <div id="contentWrapper">
-        <h1>Showroom List</h1>
-
-        <!-- Filter Input -->
-        <div id="filter">
-            <label for="filterInput">Filter by City: </label>
-            <input type="text" id="filterInput" placeholder="Enter city name" />
-        </div>
-
-        <!-- Table to display data -->
-        <table id="dataTable">
-            <thead>
-                <tr id="tableHeaders"></tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+<body class="form">
+  <form id="myForm" method="post" onsubmit="submitForm(event)">
+    <div class="logobox">
+      <img class="Logo" src="Images\MyAbans_Logo.png" alt="Abans Logo">
+    </div>
+   
+    <div class="form-group">
+      <label for="name" class="form">Name:</label>
+      <input type="text" class="form" id="name" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="mobile" class="form">Mobile Number:</label>
+      <input type="tel" class="form" id="mobile" name="mobile" required pattern="[0-9]{10}">
+    </div>
+    <div class="form-group">
+      <label for="nic" class="form">NIC:</label>
+      <input type="text" class="form" id="nic" name="nic" required pattern="([0-9]{9}[vVxX])|([0-9]{12})">
+    </div>
+    <div class="form-group">
+      <label for="dob" class="form">Date of Birth:</label>
+      <input type="date" class="form" id="dob" name="dob" required>
+    </div>
+    <div class="form-group">
+      <label for="email" class="form">Email:</label>
+      <input type="email" class="form" id="email" name="email" required>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Submit Button -->
+    <button type="submit" class="form" id="submitBtn" disabled>Submit</button>
+  </form>
+
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
+  <script src="script.js"></script> -->
+  <script>
+    // Function to check if the form is valid
+function checkFormValidity() {
+    const form = document.getElementById('myForm');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Check if the form is valid
+    if (form.checkValidity()) {
+      submitBtn.disabled = false; // Enable submit button if form is valid
+    } else {
+      submitBtn.disabled = true; // Disable submit button if form is invalid
+    }
+}
+  
+// Add event listeners to input fields to trigger validity check on input
+document.getElementById('name').addEventListener('input', checkFormValidity);
+document.getElementById('mobile').addEventListener('input', checkFormValidity);
+document.getElementById('nic').addEventListener('input', checkFormValidity);
+document.getElementById('dob').addEventListener('input', checkFormValidity);
+document.getElementById('email').addEventListener('input', checkFormValidity);
+
+// Submit form function (called when form is submitted)
+function submitForm(event) {
+    event.preventDefault(); // Prevent default form submission
+    
+    var form = document.getElementById('myForm');
+    
+    var formData = {
+      name: document.getElementById('name').value,
+      mobile: document.getElementById('mobile').value,
+      nic: document.getElementById('nic').value,
+      dob: document.getElementById('dob').value,
+      email: document.getElementById('email').value,
+    };
+
+    // Send the form data via fetch to the Google Apps Script endpoint
+    fetch('https://script.google.com/macros/s/AKfycby5ulNFxm2R4iG1J2oRbK3PkgvgRf96dNOQWNQhpULMhNXUnDzeGifcwMpgsuhZflzV/exec', {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    })
+    .then(response => {
+        if (response.status === 200) {
+          alert('Form data submitted successfully');
+          window.location.href = 'slot.html'; // Redirect after submission
+        } else {
+          throw new Error('Form submission failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Form submission failed');
+      });
+}
+  </script>
 </body>
 </html>

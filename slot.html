@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="mainContainer">
+        <div class="loader-container">
+            <img src="images/MyAbans.png" alt="Slot Machine Image" class="w-100">
+        </div>
+        <div class="slot-machine">
+            <div class="slotwrapper" id="example1">
+                <ul id="ul-1">
+                    <li><img src="images/MyAbans.png" alt="Icon 1"></li>
+                    <li><img src="images/Store.png" alt="Icon 2"></li>
+                    <li><img src="images/Bag.png" alt="Icon 3"></li>
+                    <li><img src="images/Cart.png" alt="Icon 4"></li>
+                    <li><img src="images/Motorola.png" alt="Icon 5"></li>
+                    <li><img src="images/Abans TV.png" alt="Icon 6"></li>
+                    <li><img src="images/Mistral-Oven.png" alt="Icon 7"></li>
+                    <li><img src="images/Sudio.png" alt="Icon 8"></li>
+                    <li><img src="images/Abans Sandwich Maker.png" alt="Icon 9"></li>
+                </ul>
+                <ul id="ul-2">
+                    <li><img src="images/MyAbans.png" alt="Icon 1"></li>
+                    <li><img src="images/Store.png" alt="Icon 2"></li>
+                    <li><img src="images/Bag.png" alt="Icon 3"></li>
+                    <li><img src="images/Cart.png" alt="Icon 4"></li>
+                    <li><img src="images/Motorola.png" alt="Icon 5"></li>
+                    <li><img src="images/Abans TV.png" alt="Icon 6"></li>
+                    <li><img src="images/Mistral-Oven.png" alt="Icon 7"></li>
+                    <li><img src="images/Sudio.png" alt="Icon 8"></li>
+                    <li><img src="images/Abans Sandwich Maker.png" alt="Icon 9"></li>
+                </ul>
+                <ul id="ul-3">
+                    <li><img src="images/MyAbans.png" alt="Icon 1"></li>
+                    <li><img src="images/Store.png" alt="Icon 2"></li>
+                    <li><img src="images/Bag.png" alt="Icon 3"></li>
+                    <li><img src="images/Cart.png" alt="Icon 4"></li>
+                    <li><img src="images/Motorola.png" alt="Icon 5"></li>
+                    <li><img src="images/Abans TV.png" alt="Icon 6"></li>
+                    <li><img src="images/Mistral-Oven.png" alt="Icon 7"></li>
+                    <li><img src="images/Sudio.png" alt="Icon 8"></li>
+                    <li><img src="images/Abans Sandwich Maker.png" alt="Icon 9"></li>
+                </ul>
+            </div>
+            <img src="images/Slot machine.png" alt="" class="w-100">
+            <button type="button" class="slot-machine-btn" id="btn-example1">
+                <img src="images/Lever.png" alt="" class="w-100">
+            </button>
+        </div>
+    </div>
+
+    <!-- Popup for collecting user details -->
+    <div id="winner-form-popup">
+        <h3>Congratulations! You Won!</h3>
+        <form id="winner-form" onclick="">
+            <label for="winner-name">Name:</label>
+            <input type="text" id="winner-name" name="winner-name" required><br><br>
+            <label for="winner-mobile">Mobile:</label>
+            <input type="text" id="winner-mobile" name="winner-mobile" pattern="[0-9]{10}"><br><br>
+            <label for="winner-email">Email:</label>
+            <input type="email" id="winner-email" name="winner-email" required><br><br>
+            <button type="submit" id="submit-winner-form">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

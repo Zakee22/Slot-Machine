@@ -1,0 +1,290 @@
+* {
+    box-sizing: border-box; /* Ensure padding and borders are included in element's total width and height */
+}
+
+body {
+    background: url("images/BG - Slot Machine.png") no-repeat center center fixed;
+    background-size: cover; /* Ensure the image covers the entire screen */
+    margin: 0; /* Remove default margin */
+    font-family: Arial, sans-serif; /* Set a default font */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.w-100{
+    max-width: 200px;
+    width: 100%;
+}
+
+.loader-container {
+    max-width: 400px;
+    border-radius: 10px;
+    margin: 20px auto; /* Add some margin to the top */
+    display: flex;      /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    padding: 20px; /* Add some padding if needed */
+}
+.slot-machine {
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    max-width: 500px; /* Maximum width of the container */
+    /* background-color: #fff; */
+    border-radius: 10px;
+    width: 100%; /* Use full width on smaller screens */
+    /* height: 200px; Ensure the container takes full height of the viewport */
+    margin: 100px auto; /* Horizontally center the container */
+}
+
+.slot-machine > img {
+    display: block; /* Makes the image behave like a block element */
+    max-width: 300px;
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain the aspect ratio */
+    object-fit: contain; /* Ensures the image fits well within the container */
+}
+
+.slotwrapper {
+    position: absolute;
+    overflow: hidden;
+    display: flex
+;
+    max-height: 100px;
+    max-width: 250px;
+    width: 100%;
+    padding: 0 20px;
+    /* background: #fff; */
+}
+
+.slotwrapper ul {
+    top: -0px;
+    padding: 0;
+    margin: 0;
+    margin-top: -50px;
+    list-style: none;
+    position: relative;
+    float: left;
+    width: 80px;
+    height: 200px;
+    font-size: 100px;
+    line-height: 200px;
+    text-align: center;
+}
+
+.slot-machine-btn {
+    position: absolute;
+    top: 36%;
+    right: 570px;
+    transform: translate(0, -50%);
+    background: transparent;
+    border: none;
+    width: 70px;
+    transition: 0.4s all ease-in-out;
+}
+
+.slot-machine-btn.pulled {
+    transform: translate(0, -50%) rotateX(30deg); /* Adjust rotation for pull effect */
+}
+
+button#btn-example1:hover > img {
+    filter: drop-shadow(2px 4px 6px yellow);
+}
+
+button#btn-example1 > img {
+    transition: 0.4s all ease-in-out;
+    user-select: none;
+}
+
+:not(button) img {
+    pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .slot-machine {
+        max-width: 90%; /* Use more of the screen width */
+    }
+
+    .slotwrapper ul {
+        font-size: 100px; /* Reduce font size for smaller screens */
+        line-height: 100px; /* Adjust line height */
+    }
+
+    .slot-machine-btn {
+        width: 60px; /* Smaller button */
+    }
+}
+
+@media (max-width: 600px) {
+    .slot-machine-btn {
+        width: 60px;
+        left: 320px;
+        top: 40%;
+    }
+}
+@media (max-width: 600px) {
+    .slotwrapper ul {
+        font-size: 100px;
+        line-height: 100px;
+        /* top: 50px; */
+        margin-top: 0px;
+    }
+}
+@media (max-width: 600px) {
+    .slotwrapper {
+    position: absolute;
+    overflow: hidden;
+    display: flex;
+    max-height: 100px;
+    max-width: 250px;
+    width: 100%;
+    padding: 0 20px;
+
+    /* background: #fff; */
+    }
+}
+    
+#winner-form-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 300px;
+}
+
+#winner-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#winner-form input {
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#winner-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#winner-form button:hover {
+    background-color: #45a049;
+}
+
+.slotwrapper ul li img {
+    max-width: 60px;
+    width: 100%; /* Make images responsive */
+    height: auto; /* Preserve aspect ratio */
+}
+
+
+/* Styles for Forms */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+body.form {
+    height: 100vh; /* Ensure the body takes up the full viewport height */
+    width: 100%; /* Ensure the body takes up the full viewport width */
+    max-width: 100%; /* Remove the max-width restriction */
+    background-image: url("images/BG - Slot Machine.png");
+    background-size: cover; /* Make the background image cover the entire screen */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+  .wrapper {
+    width: 100%;
+    max-width: 34.37em;
+    max-height: 90vh;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 3em;
+    border-radius: 1em;
+    box-shadow: 0 4em 5em rgba(27, 8, 53, 0.2);
+  }
+  
+  .logobox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  img.Logo{
+    padding:10px;
+    position: Flex ;
+    width: 250px;
+    
+  }
+  
+#myForm{
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  width: 100%;
+  padding: 30px;
+  background-color: #102341;
+  border-radius: 10px;
+  
+}
+
+  .form-group {
+    margin-bottom: 20px;
+    
+  }
+  
+  label.form {
+    display: block;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  input[type="text"].form,
+  input[type="tel"].form,
+  input[type="email"].form,
+  input[type="date"].form {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"].form {
+    padding: 10px 20px;
+    background-color: #FD7613;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"].form:hover {
+    background-color: #fe5500;
+  }
+
+
+  
