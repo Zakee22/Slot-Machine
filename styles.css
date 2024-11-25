@@ -1,0 +1,165 @@
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Soft background color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Sale Banner */
+#saleBanner {
+    background-color: #FF6F61; /* Bright, attention-grabbing color */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#saleBanner h2 {
+    font-size: 2.5em; /* Larger font for sale heading */
+    margin: 0;
+}
+
+#saleBanner p {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Page Content */
+#contentWrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+th, td {
+    padding: 12px 20px;
+    text-align: left;
+}
+
+th {
+    background-color: #FF6F61; /* Matching the sale banner color */
+    color: white;
+    font-weight: bold;
+}
+
+td {
+    background-color: #f9f9f9;
+    font-size: 1em;
+}
+
+/* Filter Input */
+#filter {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#filter label {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+}
+
+#filterInput {
+    padding: 12px 18px;
+    font-size: 1.2em;
+    width: 300px;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#filterInput:focus {
+    outline: none;
+    border-color: #FF6F61;
+    box-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    /* Sale Banner */
+    #saleBanner h2 {
+        font-size: 2em;
+    }
+
+    #saleBanner p {
+        font-size: 1.1em;
+    }
+
+    /* Filter Input */
+    #filter {
+        margin: 20px 0;
+        padding: 0 20px;
+    }
+
+    #filter label {
+        font-size: 1em;
+        margin-bottom: 5px;
+    }
+
+    #filterInput {
+        width: 100%; /* Make input take up full width on smaller screens */
+        font-size: 1em;
+        padding: 10px;
+    }
+
+    /* Table adjustments */
+    table {
+        width: 100%;
+        font-size: 0.9em; /* Smaller font size on mobile */
+    }
+
+    th, td {
+        padding: 8px 12px;
+    }
+}
+
+/* Very small devices (e.g., phones in portrait mode) */
+@media (max-width: 480px) {
+    /* Sale Banner */
+    #saleBanner h2 {
+        font-size: 1.8em;
+    }
+
+    #saleBanner p {
+        font-size: 1em;
+    }
+
+    /* Filter Input */
+    #filter label {
+        font-size: 0.9em;
+    }
+
+    #filterInput {
+        font-size: 1em;
+    }
+
+    /* Table adjustments */
+    table {
+        font-size: 0.8em; /* Adjust font size even further for very small screens */
+    }
+
+    th, td {
+        padding: 8px 10px;
+    }
+}
