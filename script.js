@@ -29,43 +29,43 @@ let symbolNameMap = {
     "images/Abans Sandwich Maker.png": "Abans 3 in 1 Sandwich Maker"
 };
 
-async function updateImageMap() {
-    try {
-        // Fetch data from the AppScript endpoint with a cache buster
-        const response = await fetch(`${appScriptUrl}?t=${Date.now()}`);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+// async function updateImageMap() {
+//     try {
+//         // Fetch data from the AppScript endpoint with a cache buster
+//         const response = await fetch(`${appScriptUrl}?t=${Date.now()}`);
+//         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-        const data = await response.json();
+//         const data = await response.json();
 
-        // Filter out images whose corresponding status is 'won'
-        const imagesToRemove = data
-            .filter(item => item.status && item.status.toLowerCase() === 'won') // Filter products with 'won' status
-            .map(item => item.image); // Map to image names or URLs from the response
+//         // Filter out images whose corresponding status is 'won'
+//         const imagesToRemove = data
+//             .filter(item => item.status && item.status.toLowerCase() === 'won') // Filter products with 'won' status
+//             .map(item => item.image); // Map to image names or URLs from the response
 
-        // Update the imageMap by excluding imagesToRemove
-        imageMap = imageMap.filter(image => !imagesToRemove.includes(image));
+//         // Update the imageMap by excluding imagesToRemove
+//         imageMap = imageMap.filter(image => !imagesToRemove.includes(image));
 
-        console.log("Updated imageMap:", imageMap);
+//         console.log("Updated imageMap:", imageMap);
 
-        // Update symbolNameMap to exclude removed products
-        symbolNameMap = Object.fromEntries(
-            Object.entries(symbolNameMap).filter(([key]) => imageMap.includes(key))
-        );
+//         // Update symbolNameMap to exclude removed products
+//         symbolNameMap = Object.fromEntries(
+//             Object.entries(symbolNameMap).filter(([key]) => imageMap.includes(key))
+//         );
 
-        console.log("Updated symbolNameMap:", symbolNameMap);
+//         console.log("Updated symbolNameMap:", symbolNameMap);
 
-        // Remove corresponding images from UI
-        imagesToRemove.forEach(imageSrc => {
-            $(`.slotwrapper ul li img[src="${imageSrc}"]`).closest('li').remove();
-        });
+//         // Remove corresponding images from UI
+//         imagesToRemove.forEach(imageSrc => {
+//             $(`.slotwrapper ul li img[src="${imageSrc}"]`).closest('li').remove();
+//         });
 
-    } catch (error) {
-        console.error("Error fetching or processing data:", error);
-    }
-}
+//     } catch (error) {
+//         console.error("Error fetching or processing data:", error);
+//     }
+// }
 
-// Call the function to update the imageMap
-updateImageMap();
+// // Call the function to update the imageMap
+// updateImageMap();
 
 // Helper function to generate random image symbols
 function generateRandomSymbol() {
