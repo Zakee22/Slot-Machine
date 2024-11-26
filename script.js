@@ -1,13 +1,13 @@
 
 
-
-
 // Global variables
 var startSeqs = {}; // Track spinning sequences
 var startNum = 0; // Counter for main sequences
 var grantedNumbers = new Set(); // Track already granted special numbers
 
-// Map index to image filenames for matching
+// URL of the AppScript endpoint
+const appScriptUrl = 'https://script.google.com/macros/s/AKfycbzJ6i-l09bvUzINEYXjWtEMxKSOUZlDrhldVpWdPjlIVLnff9Y0Gp2am4I0zcW3yUpX/exec';
+
 let imageMap = [
     "images/MyAbans.png",
     "images/Store.png",
@@ -20,15 +20,6 @@ let imageMap = [
     "images/Abans Sandwich Maker.png"
 ];
 
-// Probability configuration for specific symbols
-let specialSymbolProbability = {
-    "images/Motorola.png": 1,
-    // "images/Abans TV.png": 1,
-    // "images/Mistral-Oven.png": 1,
-    // "images/Sudio.png": 1,
-    // "images/Abans Sandwich Maker.png": 1
-};
-
 // Extract readable names for special symbols
 let symbolNameMap = {
     "images/Motorola.png": "Motorola Phone",
@@ -36,33 +27,45 @@ let symbolNameMap = {
     "images/Mistral-Oven.png": "Mistral 23l Electric Oven",
     "images/Sudio.png": "Sudio A1 Pro",
     "images/Abans Sandwich Maker.png": "Abans 3 in 1 Sandwich Maker"
-    
 };
 
-// Function to determine if a special symbol should be shown
-function getSpecialSymbol() {
-    const availableSymbols = Object.entries(specialSymbolProbability).filter(
-        ([symbol]) => !grantedNumbers.has(symbol)
-    );
+async function updateImageMap() {
+    try {
+        // Fetch data from the AppScript endpoint with a cache buster
+        const response = await fetch(`${appScriptUrl}?t=${Date.now()}`);
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-    if (availableSymbols.length === 0) return null;
+        const data = await response.json();
 
-    const totalProbability = availableSymbols.reduce(
-        (sum, [, probability]) => sum + probability,
-        0
-    );
-    const threshold = Math.random() * totalProbability;
-    let cumulativeProbability = 0;
+        // Filter out images whose corresponding status is 'won'
+        const imagesToRemove = data
+            .filter(item => item.status && item.status.toLowerCase() === 'won') // Filter products with 'won' status
+            .map(item => item.image); // Map to image names or URLs from the response
 
-    for (const [symbol, probability] of availableSymbols) {
-        cumulativeProbability += probability;
-        if (threshold <= cumulativeProbability) {
-            return symbol;
-        }
+        // Update the imageMap by excluding imagesToRemove
+        imageMap = imageMap.filter(image => !imagesToRemove.includes(image));
+
+        console.log("Updated imageMap:", imageMap);
+
+        // Update symbolNameMap to exclude removed products
+        symbolNameMap = Object.fromEntries(
+            Object.entries(symbolNameMap).filter(([key]) => imageMap.includes(key))
+        );
+
+        console.log("Updated symbolNameMap:", symbolNameMap);
+
+        // Remove corresponding images from UI
+        imagesToRemove.forEach(imageSrc => {
+            $(`.slotwrapper ul li img[src="${imageSrc}"]`).closest('li').remove();
+        });
+
+    } catch (error) {
+        console.error("Error fetching or processing data:", error);
     }
-
-    return null;
 }
+
+// Call the function to update the imageMap
+updateImageMap();
 
 // Helper function to generate random image symbols
 function generateRandomSymbol() {
@@ -81,14 +84,7 @@ $.fn.playSpin = function (options) {
         const total = this.length;
         let thisSeq = 0;
 
-        const specialSymbol = getSpecialSymbol();
-        const endSymbols = specialSymbol
-            ? new Array(this.length).fill(specialSymbol)
-            : Array.from({ length: this.length }, () => generateRandomSymbol());
-
-        if (specialSymbol) {
-            grantedNumbers.add(specialSymbol);
-        }
+        const endSymbols = Array.from({ length: this.length }, () => generateRandomSymbol());
 
         startSeqs['mainSeq' + startNum]['totalSpinning'] = total;
 
@@ -109,7 +105,7 @@ $.fn.playSpin = function (options) {
     }
 };
 
-// Slot machine constructor updated to use symbols
+// Slot machine constructor
 const slotMachine = function (el, options, track) {
     const slot = this;
     slot.$el = $(el);
@@ -169,42 +165,44 @@ const slotMachine = function (el, options, track) {
     slot.init();
 };
 
-// Display the result and check for winning conditions
+// Display results and determine winners
 function displayResult() {
     const results = Object.values(startSeqs['mainSeq' + startNum])
-    .filter(seq => typeof seq.endSymbol === 'string')
-    .map(seq => seq.endSymbol);
+        .filter(seq => typeof seq.endSymbol === 'string')
+        .map(seq => seq.endSymbol);
 
-const resultText = `Your result is:<br>${results.map(r => r.split('/').pop().replace('.png', '')).join(', ')}`;
-const resultContainer = $('#result-display');
+    const resultText = `Your result is:<br>${results.map(r => r.split('/').pop().replace('.png', '')).join(', ')}`;
+    const resultContainer = $('#result-display');
 
-if (resultContainer.length) {
-    resultContainer.html(resultText);  // Use .html() to insert HTML content
-} else {
-    $('<div id="result-display"></div>')
-        .html(resultText)  // Use .html() to insert HTML content
-        .css({
-            'text-align': 'center',
-            'margin-top': '20px',
-            'font-size': '20px',
-            'color': 'white',
-            'background-color' : '#0E112E'
-        })
-        .appendTo('.mainContainer');
-}
+    if (resultContainer.length) {
+        resultContainer.html(resultText);
+    } else {
+        $('<div id="result-display"></div>')
+            .html(resultText)
+            .css({
+                'text-align': 'center',
+                'margin-top': '20px',
+                'font-size': '20px',
+                'color': 'white',
+                'background-color': '#0E112E'
+            })
+            .appendTo('.mainContainer');
+    }
 
-
-    // Check if all results are identical and match a special symbol
+    // Check if all results are identical and match a valid symbol in symbolNameMap
     if (
         results.length === 3 &&
         results[0] === results[1] &&
         results[1] === results[2] &&
-        specialSymbolProbability[results[0]]
+        symbolNameMap[results[0]] // Ensure it is a valid symbol
     ) {
-        const winningIconName = symbolNameMap[results[0]]; // Extract the readable name
-        showWinningFormPopup(results[0], winningIconName);
+        const winningIconName = symbolNameMap[results[0]]; // Extract readable name
+        updateProductStatusInSheet(winningIconName); // Update Google Sheet
+        showWinningFormPopup(results[0], winningIconName); // Show popup
     }
 }
+
+
 
 // Popup logic
 function showWinningFormPopup(winningSymbol, winningIconName) {
@@ -264,10 +262,31 @@ function showWinningFormPopup(winningSymbol, winningIconName) {
     $('#winner-form-popup').fadeIn();
 }
 
+function updateProductStatusInSheet(winningIcon) {
+    const productUpdateData = {
+        productName: winningIcon,
+        newStatus: 'won'
+    };
+
+    const productUpdateScriptURL = "https://script.google.com/macros/s/AKfycbxFt5YOvSB6otTrW1Em-cPlaIh0LyCnLiCVG8Y5DsIOKlBftZ_BCJ0NGZzmKfxFn-sz/exec"; // Replace with your actual Web App URL
+
+    $.ajax({
+        url: productUpdateScriptURL,
+        type: "POST",
+        data: productUpdateData,
+        success: function(response) {
+            console.log('Response from Google Apps Script:', response);
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', error);
+        }
+    });
+}
+
 // Remove the winning symbol from game
 function removeWinningSymbol(winningSymbol) {
     // Remove the symbol from all configurations
-    delete specialSymbolProbability[winningSymbol];
+    // delete specialSymbolProbability[winningSymbol];
     delete symbolNameMap[winningSymbol];
     imageMap = imageMap.filter(symbol => symbol !== winningSymbol);
 
